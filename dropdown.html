@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emily's Drop Down Menu</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+  
+    div {
+        background-color: black;
+    }
+
+    ul {
+        display: inline;
+        margin: 0;
+        padding: 0px;
+    }
+
+    ul li {
+        display: inline-block;
+        padding: 20px;
+    }
+
+    ul li a {
+        font-size: 18px;
+        text-decoration: none;
+        color: white;
+    }
+
+    ul li:hover ul {
+        display: block;
+    }
+
+    ul li ul {
+        position: absolute;
+        width: 200px;
+        display: none;
+    }
+
+    ul li ul li { 
+        background:darkgray;
+        display: block;
+    }
+
+    ul li ul li a { 
+        text-decoration: none;
+        color: black;
+    }
+
+    ul li ul li:hover {
+        background:darkslategray;
+    }
+       
+
+    </style>
+</head>
+<body>
+
+<div>    
+<ul class="dropdowns">
+   
+   <li class=drop>
+       <a href="#">Drop1</a>
+        <ul>
+            <li><a href="#">Link1</a></li>
+            <li><a href="#">Link1</a></li>
+            <li><a href="#">Link1</a></li>
+            <li><a href="#">Link1</a></li>
+        </ul>
+    </li>
+
+    <li class=drop>
+        <a href="#">Drop2</a>
+         <ul>
+            <li><a href="#">Link1</a></li>
+            <li><a href="#">Link1</a></li>
+            <li><a href="#">Link1</a></li>
+            <li><a href="#">Link1</a></li>
+         </ul>
+    </li>
+
+</ul>
+</div>
+
+</body>
+</html>
