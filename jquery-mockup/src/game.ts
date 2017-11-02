@@ -14,6 +14,14 @@ export class Player {
             this.quotes.map(x=> `<li class="list-group-item">${x.text}</li>`).join("")
         );
     }
+
+    init(){
+        $.getJSON("/game/quotes").done( data =>{
+            this.quotes = data;
+            this.drawQuotes();
+        })
+     
+    }
 }
 
 export class Room {
@@ -36,46 +44,41 @@ export class Room {
         $("#players").html(
             this.players.map(x=> `<li class="list-group-item">${x.name}</li>`).join(""))
     }
-}
 
-export class Game {
-    players: Player[] = [];
-    pictures: string[] = [];
-    quotes: Quote[] = [];
+    update(){
+        $.get("/game/room/picture").done( data => {
+            this.picture = data;
+            this.drawPicture();
+        });
+        $.getJSON("/game/room/quotes").done( data => {
+            this.quotes = data
+            this.drawQuotes();
+        });
+    }
 
-    init() {
-        return $.when(
-            $.getJSON("/game/pictures").done( data => {
-                this.pictures = data;
-            }),
-            $.getJSON("/game/quotes").done( data => {
-                this.quotes = data
-            })
-        );
+    init(){
+        setInterval(()=> this.update(), 1000)
     }
 }
 
+
 // Controller
-const game = new Game();
 const room = new Room();
 const me = new Player();
+me.init();
+room.init();
+room.drawPlayers();
 
-var i = 0;
-
-game.init().done(()=>{  
-    room.picture = game.pictures[i];
-    room.drawPicture();
-    room.drawQuotes();
-    room.drawPlayers();
-    
-    me.quotes = game.quotes;
-    me.drawQuotes();
-
-});
 
 $("#cmd-flip").click(function(e){
     e.preventDefault();
-    i++;
-    room.picture = game.pictures[i];
-    room.drawPicture();
+    $.post("/game/room/picture")
+})
+
+$("#my-quotes").click("li", function(e){
+    e.preventDefault();
+    const $li = $(e.originalEvent.srcElement);
+    const data = { text: $li.text() };
+    $.post("/game/room/quotes", data);
+    $li.remove();
 })
